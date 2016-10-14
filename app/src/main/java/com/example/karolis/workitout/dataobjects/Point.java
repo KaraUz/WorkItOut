@@ -35,6 +35,16 @@ public class Point {
         this.z = z;
     }
 
+    public Point(){
+
+    }
+
+    public Point(float x, float y, float z){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
     public void sub(Point point){
         this.x -= point.getX();
         this.y -= point.getY();
