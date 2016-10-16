@@ -1,5 +1,6 @@
 package com.example.karolis.workitout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +12,8 @@ import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.example.karolis.workitout.dao.Database;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -21,8 +24,9 @@ public class MainActivity extends AppCompatActivity{
 
     private CustomAdapter listAdapter;
     private ExpandableListView expandableWorkoutList;
-
     private int selectedGroup = -1;
+
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +34,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         // add data for displaying in expandable list view
         loadData();
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity{
 
     //load some initial data into out list
     private void loadData(){
+        db = new Database(getApplication().openOrCreateDatabase("workout.db", Context.MODE_PRIVATE,null));
         //TODO Replace with sqlite fetch
         addProduct("Android","ListView");
         addProduct("Android","ExpandableListView");
