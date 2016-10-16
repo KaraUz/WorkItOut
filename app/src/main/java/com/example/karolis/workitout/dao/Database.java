@@ -28,8 +28,8 @@ public class Database {
                 "Difficulty integer," +
                 "FOREIGN KEY (ExerciseName) REFERENCES Exercise(Name));");
         //mydatabase.execSQL("INSERT INTO Exercise VALUES('Exercise1','This is first test exercise');");
-        //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout1','Exercise1',5);");
-        //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout1','Exercise1',2);");
+        //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout2','Exercise1',1);");
+        //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout2','Exercise1',1);");
     }
 
     public List<Workout> getAllWorkouts(){

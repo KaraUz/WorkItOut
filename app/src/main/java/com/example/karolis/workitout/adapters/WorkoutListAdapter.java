@@ -7,13 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.example.karolis.workitout.ChildInfo;
-import com.example.karolis.workitout.GroupInfo;
 import com.example.karolis.workitout.R;
 import com.example.karolis.workitout.dataobjects.Exercise;
 import com.example.karolis.workitout.dataobjects.Workout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
