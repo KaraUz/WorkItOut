@@ -34,6 +34,7 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Stri
     protected void onResume() {
         super.onResume();
         accelerometer.startTracking();
+        //testAccelerometer();
     }
 
     @Override
@@ -45,5 +46,22 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Stri
     @Override
     public void notify(String s) {
         text.setText(s);
+    }
+
+    public void testAccelerometer(){
+        accelerometer.handleAcceleration(new Point(10, 10, 10));
+        try {
+            Thread.sleep(1000);
+            accelerometer.handleAcceleration(new Point(0, 0, 0));
+            Thread.sleep(1000);
+            accelerometer.handleAcceleration(new Point(-10, -10, -10));
+            Thread.sleep(1000);
+            accelerometer.handleAcceleration(new Point(0, 0, 0));
+            Thread.sleep(1000);
+            accelerometer.handleAcceleration(new Point(0, 0, 0));
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+
+        }
     }
 }

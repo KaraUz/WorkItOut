@@ -45,36 +45,27 @@ public class Point {
         this.z = z;
     }
 
-    public void sub(Point point){
-        this.x -= point.getX();
-        this.y -= point.getY();
-        this.z -= point.getZ();
+    public Point sub(Point point){
+        return new Point(x - point.getX(), y - point.getY(), z - point.getZ());
     }
 
-    public void add(Point point){
-        this.x+=point.getX();
-        this.y+=point.getY();
-        this.z+=point.getZ();
+    public Point add(Point point){
+        return new Point(x + point.getX(), y + point.getY(), z + point.getZ());
     }
 
-    public Point times(float x){
-        this.x*=x;
-        this.y*=x;
-        this.z*=x;
-        return this;
-    }
-
-    public void sub(float x, float y, float z){
-        this.x -= x;
-        this.y -= y;
-        this.z -= z;
+    public Point times(float mult){
+        return new Point(x * mult, y * mult, z * mult);
     }
 
     @Override
-    public String toString() {
+    public String toString(){
+        return toString("Point");
+    }
+
+    public String toString(String vectorName) {
 
         DecimalFormat df = new DecimalFormat("#.#");
-        return "Point{" +
+        return vectorName + "{ " +
                 "x=" + df.format(x) +
                 ", y=" + df.format(y) +
                 ", z=" + df.format(z) +

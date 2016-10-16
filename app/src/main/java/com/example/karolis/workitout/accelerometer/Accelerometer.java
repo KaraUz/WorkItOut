@@ -4,6 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import com.example.karolis.workitout.dataobjects.Point;
 import com.example.karolis.workitout.utilities.Listener;
@@ -17,8 +18,10 @@ import java.util.Calendar;
 public class Accelerometer implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mSensor;
-    private float lastUpdateTime;
-    private Point point;
+    private float updateTime;
+    private Point position;
+    private Point velocity;
+    private Point acceleration;
     private Listener<String> listener;
 
     public Accelerometer(SensorManager mSensorManager, Listener<String> listener){
@@ -26,8 +29,9 @@ public class Accelerometer implements SensorEventListener {
         this.mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         this.listener = listener;
 
-        point = new Point();
-        lastUpdateTime = Calendar.getInstance().getTimeInMillis();
+        position = new Point();
+        velocity = new Point();
+        acceleration = new Point();
     }
 
     public void startTracking(){
@@ -40,18 +44,43 @@ public class Accelerometer implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        handleAcceleration(new Point(event.values[0], event.values[1], event.values[2]));
+    }
 
-        point.setX(event.values[0]);
-        point.setY(event.values[1]);
-        point.setZ(event.values[2]);
+    public void handleAcceleration(Point newAcceleration){
+        float timeDelta = getTimeSinceLastUpdate();
 
-        listener.notify(point.toString());
-            // text.setText("Gravity values: " +df.format(gravity[0]) + "\n" + df.format(gravity[1])+ "\n" + df.format(gravity[2])+
-            //        "\nLinear acceleration: " + df.format(linear_acceleration[0]) + "\n" + df.format(linear_acceleration[1])+ "\n" + df.format(linear_acceleration[2]));
+        // x = x0 + v0 * t + a * t^2 / 2
+        position = position.add(
+                velocity.times(timeDelta).add(acceleration.times(timeDelta * timeDelta / 2)));
+
+        // v = v0 + a * t
+        velocity = velocity.add(acceleration.times(timeDelta));
+
+        acceleration = newAcceleration;
+
+        listener.notify(formOutput());
+
+        Log.d("Accelerometer", "TimeDelta: " + timeDelta);
+        Log.d("Accelerometer", "Position: " + position);
+        Log.d("Accelerometer", "Velocity: " + velocity);
+        Log.d("Accelerometer", "Acceleration: " + acceleration);
+    }
+
+    private float getTimeSinceLastUpdate(){
+        float previousUpdateTime = updateTime;
+        updateTime = System.nanoTime() / ((float) Math.pow(10, 9));
+        return previousUpdateTime == 0 ? 0 : updateTime - previousUpdateTime;
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         //Todo
+    }
+
+    private String formOutput(){
+        return position.toString("position") + '\n'
+            + velocity.toString("velocity") + '\n'
+            + acceleration.toString("acceleration");
     }
 }
