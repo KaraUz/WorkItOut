@@ -1,36 +1,36 @@
-package com.example.karolis.workitout;
+package com.example.karolis.workitout.adapters;
 
-/**
- * Created by Karolis on 2016-10-12.
- */
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.example.karolis.workitout.R;
+import com.example.karolis.workitout.dataobjects.Exercise;
+import com.example.karolis.workitout.dataobjects.Workout;
 
+import java.util.List;
 
 /**
- * Created by Gourav on 08-03-2016.
+ * Created by Karolis on 2016-10-16.
  */
-public class CustomAdapter extends BaseExpandableListAdapter {
+
+public class WorkoutListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<GroupInfo> deptList;
+    private List<Workout> workoutList;
 
-    public CustomAdapter(Context context, ArrayList<GroupInfo> deptList) {
+    public WorkoutListAdapter(Context context, List<Workout> workoutList) {
         this.context = context;
-        this.deptList = deptList;
+        this.workoutList = workoutList;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        ArrayList<ChildInfo> productList = deptList.get(groupPosition).getProductList();
-        return productList.get(childPosition);
+        List<Exercise> exerciseList = workoutList.get(groupPosition).getExercises();
+        return exerciseList.get(childPosition);
     }
 
     @Override
@@ -42,16 +42,16 @@ public class CustomAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View view, ViewGroup parent) {
 
-        ChildInfo detailInfo = (ChildInfo) getChild(groupPosition, childPosition);
+        Exercise exercise = (Exercise) getChild(groupPosition, childPosition);
         if (view == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = infalInflater.inflate(R.layout.child_items, null);
         }
         view.setBackgroundResource(R.color.white);
         TextView sequence = (TextView) view.findViewById(R.id.sequence);
-        sequence.setText(detailInfo.getSequence().trim() + ". ");
+        sequence.setText(exercise.getName()+" - ");
         TextView childItem = (TextView) view.findViewById(R.id.childItem);
-        childItem.setText(detailInfo.getName().trim());
+        childItem.setText(""+exercise.getDifficulty());
 
         return view;
     }
@@ -59,19 +59,19 @@ public class CustomAdapter extends BaseExpandableListAdapter {
     @Override
     public int getChildrenCount(int groupPosition) {
 
-        ArrayList<ChildInfo> productList = deptList.get(groupPosition).getProductList();
-        return productList.size();
+        List<Exercise> exerciseList = workoutList.get(groupPosition).getExercises();
+        return exerciseList.size();
 
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return deptList.get(groupPosition);
+        return workoutList.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return deptList.size();
+        return workoutList.size();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class CustomAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
 
-        GroupInfo headerInfo = (GroupInfo) getGroup(groupPosition);
+        Workout workout = (Workout) getGroup(groupPosition);
         if (view == null) {
             LayoutInflater inf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inf.inflate(R.layout.group_items, null);
@@ -93,7 +93,7 @@ public class CustomAdapter extends BaseExpandableListAdapter {
             view.setBackgroundResource(R.color.white);
         }
         TextView heading = (TextView) view.findViewById(R.id.heading);
-        heading.setText(headerInfo.getName().trim());
+        heading.setText(workout.getName().trim());
 
         return view;
     }
@@ -107,5 +107,4 @@ public class CustomAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
     }
-
 }
