@@ -27,9 +27,9 @@ public class Database {
                 "ExerciseName VARCHAR," +
                 "Difficulty integer," +
                 "FOREIGN KEY (ExerciseName) REFERENCES Exercise(Name));");
-        mydatabase.execSQL("INSERT INTO Exercise VALUES('Exercise1','This is first test exercise');");
-        mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout1','Exercise1',5);");
-        mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout1','Exercise1',2);");
+        //mydatabase.execSQL("INSERT INTO Exercise VALUES('Exercise1','This is first test exercise');");
+        //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout1','Exercise1',5);");
+        //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout1','Exercise1',2);");
     }
 
     public List<Workout> getAllWorkouts(){
@@ -41,19 +41,19 @@ public class Database {
         resultSet.moveToFirst();
         if(resultSet == null || resultSet.getCount() == 0) return workoutList;
 
-        lastWorkout = resultSet.getString(1);
-        exercise = new Exercise(resultSet.getString(2),resultSet.getString(3),Integer.valueOf(resultSet.getString(4)));
+        lastWorkout = resultSet.getString(0);
+        exercise = new Exercise(resultSet.getString(1),resultSet.getString(3),Integer.valueOf(resultSet.getString(2)));
         exerciseList.add(exercise);
         for (int i = 1; i<resultSet.getCount();i++){
             resultSet.moveToNext();
-            exercise = new Exercise(resultSet.getString(2),resultSet.getString(3),Integer.valueOf(resultSet.getString(4)));
-            if(lastWorkout.equals(resultSet.getString(1))){
+            exercise = new Exercise(resultSet.getString(1),resultSet.getString(3),Integer.valueOf(resultSet.getString(2)));
+            if(lastWorkout.equals(resultSet.getString(0))){
                 exerciseList.add(exercise);
             }else{
                 workoutList.add(new Workout(lastWorkout,exerciseList));
                 exerciseList = new ArrayList<>();
                 exerciseList.add(exercise);
-                lastWorkout = resultSet.getString(1);
+                lastWorkout = resultSet.getString(0);
             }
         }
         workoutList.add(new Workout(lastWorkout,exerciseList));

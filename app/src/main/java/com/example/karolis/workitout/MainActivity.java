@@ -12,22 +12,25 @@ import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.example.karolis.workitout.adapters.WorkoutListAdapter;
 import com.example.karolis.workitout.dao.Database;
+import com.example.karolis.workitout.dataobjects.Workout;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
     private LinkedHashMap<String, GroupInfo> subjects = new LinkedHashMap<String, GroupInfo>();
     private ArrayList<GroupInfo> deptList = new ArrayList<GroupInfo>();
 
-    private CustomAdapter listAdapter;
+    private WorkoutListAdapter listAdapter;
     private ExpandableListView expandableWorkoutList;
     private int selectedGroup = -1;
 
     private Database db;
-
+    private List<Workout> workoutList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +44,8 @@ public class MainActivity extends AppCompatActivity{
         //get reference of the ExpandableListView
         expandableWorkoutList = (ExpandableListView) findViewById(R.id.expandable_workout_list);
         // create the adapter by passing your ArrayList data
-        listAdapter = new CustomAdapter(MainActivity.this, deptList);
+        //listAdapter = new CustomAdapter(MainActivity.this, deptList);
+        listAdapter = new WorkoutListAdapter(MainActivity.this,workoutList);
         // attach the adapter to the expandable list view
         expandableWorkoutList.setAdapter(listAdapter);
 
@@ -89,11 +93,11 @@ public class MainActivity extends AppCompatActivity{
     //load some initial data into out list
     private void loadData(){
         db = new Database(getApplication().openOrCreateDatabase("workout.db", Context.MODE_PRIVATE,null));
+        workoutList = db.getAllWorkouts();
         //TODO Replace with sqlite fetch
-        addProduct("Android","ListView");
+/*        addProduct("Android","ListView");
         addProduct("Android","ExpandableListView");
         addProduct("Android","GridView");
-
         addProduct("Java","PolyMorphism");
         addProduct("Java","Collections");
         addProduct("Java1","Collections");
@@ -108,16 +112,12 @@ public class MainActivity extends AppCompatActivity{
         addProduct("Java9","Collections");
         addProduct("Java10","Collections");
         addProduct("Java11","Collections");
-        addProduct("Java12","Collections");
-
-
-
-
+        addProduct("Java12","Collections");*/
     }
 
 
 
-    //here we maintain our products in various departments
+/*    //here we maintain our products in various departments
     private int addProduct(String department, String product){
         //TODO replace with actual logic
         int groupPosition = 0;
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity{
         //find the group position inside the list
         groupPosition = deptList.indexOf(headerInfo);
         return groupPosition;
-    }
+    }*/
 
 
 
