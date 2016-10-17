@@ -97,6 +97,10 @@ public class MainActivity extends AppCompatActivity{
         Intent intent = new Intent(this, ExerciseActivity.class);
         startActivity(intent);
     }
+    public void onClickAdd(View view){
+        Intent intent = new Intent(this, CreateWorkoutActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

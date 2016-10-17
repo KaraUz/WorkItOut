@@ -14,10 +14,21 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:screenOrientation="portrait" android:name=".ExerciseActivity"/>
+        <activity
+            android:name=".ExerciseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CreateWorkoutActivity"
+            android:label="@string/title_activity_create_workout"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChooseExerciseActivity"
+            android:label="@string/title_activity_choose_exercise"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
