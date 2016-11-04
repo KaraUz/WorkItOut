@@ -1,10 +1,9 @@
-package com.example.karolis.workitout.accelerometer;
+package com.example.karolis.workitout.exerciseTrackers;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import com.example.karolis.workitout.dataobjects.Point;
 import com.example.karolis.workitout.utilities.Listener;
@@ -13,7 +12,7 @@ import com.example.karolis.workitout.utilities.Listener;
  * Created by Dziugas on 10/14/2016.
  */
 
-public class Accelerometer implements SensorEventListener {
+public class SquatTracker implements SensorEventListener {
 
     private final float Z_THRESHOLD = 0.75f;
     private final float TIME_THRESHOLD = 0.8f;
@@ -30,8 +29,9 @@ public class Accelerometer implements SensorEventListener {
     private float directionChangeTime;
     private float[] gravityValues;
     private float[] magneticValues;
+    private Point orientation;
 
-    public Accelerometer(SensorManager mSensorManager, Listener<String> listener){
+    public SquatTracker(SensorManager mSensorManager, Listener<String> listener){
         this.mSensorManager = mSensorManager;
         this.accelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         this.gravitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
@@ -41,6 +41,7 @@ public class Accelerometer implements SensorEventListener {
         position = new Point();
         velocity = new Point();
         acceleration = new Point();
+        orientation = new Point();
         directionChangeCount = 0;
         directionChangeTime = 0;
     }
@@ -68,6 +69,8 @@ public class Accelerometer implements SensorEventListener {
             magneticValues = event.values;
         }
     }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) { }
 
     private Point getEarthOrientatedAcceleration(SensorEvent event){
         float[] deviceRelativeAcceleration = new float[4];
@@ -76,20 +79,23 @@ public class Accelerometer implements SensorEventListener {
         deviceRelativeAcceleration[2] = event.values[2];
         deviceRelativeAcceleration[3] = 0;
 
-        // Change the device relative acceleration values to earth relative values
-        // X axis -> East
-        // Y axis -> North Pole
-        // Z axis -> Sky
-
         float[] R = new float[16], I = new float[16], earthAcc = new float[16];
 
         SensorManager.getRotationMatrix(R, I, gravityValues, magneticValues);
+
+        setOrientation(R);
 
         float[] inv = new float[16];
 
         android.opengl.Matrix.invertM(inv, 0, R, 0);
         android.opengl.Matrix.multiplyMV(earthAcc, 0, inv, 0, deviceRelativeAcceleration, 0);
         return new Point(earthAcc[0], earthAcc[1], earthAcc[2]);
+    }
+
+    private void setOrientation(float[] R){
+        float[] orientationValues = new float[3];
+        SensorManager.getOrientation(R, orientationValues);
+        orientation = new Point(orientationValues[0], orientationValues[1], orientationValues[2]);
     }
 
     public void handleAcceleration(Point newAcceleration){
@@ -105,12 +111,8 @@ public class Accelerometer implements SensorEventListener {
         directionChangeCount += directionChanged(newAcceleration) ? 1 : 0;
         acceleration = newAcceleration;
 
-        listener.notify(formOutput());
-
-        Log.d("Accelerometer", "TimeDelta: " + timeDelta);
-        Log.d("Accelerometer", "Position: " + position);
-        Log.d("Accelerometer", "Velocity: " + velocity);
-        Log.d("Accelerometer", "Acceleration: " + acceleration);
+        //listener.notify(formSitUpOutput());
+        listener.notify(formSquatOutput());
     }
 
     private float getTimeSinceLastUpdate(){
@@ -129,21 +131,20 @@ public class Accelerometer implements SensorEventListener {
         if (timeDelta < TIME_THRESHOLD) return false;
         if (newAcceleration.getZ() < Z_THRESHOLD) return false;
         if (!(acceleration.getZ() > 0
-                    ? newAcceleration.getZ() < 0
-                    : newAcceleration.getZ() > 0)) return false;
+                ? newAcceleration.getZ() < 0
+                : newAcceleration.getZ() > 0)) return false;
         directionChangeTime += timeDelta;
         return true;
     }
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        //Todo
+    private String formSquatOutput(){
+        return position.toString("position") + '\n'
+                + velocity.toString("velocity") + '\n'
+                + acceleration.toString("acceleration") + '\n'
+                + "Count: " + directionChangeCount;
     }
 
-    private String formOutput(){
-        return position.toString("position") + '\n'
-            + velocity.toString("velocity") + '\n'
-            + acceleration.toString("acceleration") + '\n'
-                + "Direction changes: " + directionChangeCount;
+    private String formSitUpOutput(){
+        return orientation.toString("orientation");
     }
 }

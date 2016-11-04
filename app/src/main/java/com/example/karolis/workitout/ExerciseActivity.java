@@ -1,23 +1,19 @@
 package com.example.karolis.workitout;
 
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.karolis.workitout.accelerometer.Accelerometer;
-import com.example.karolis.workitout.dataobjects.Point;
+import com.example.karolis.workitout.exerciseTrackers.JumpTracker;
+import com.example.karolis.workitout.exerciseTrackers.SquatTracker;
 import com.example.karolis.workitout.utilities.Listener;
-
-import java.util.Calendar;
 
 public class ExerciseActivity extends AppCompatActivity implements Listener<String> {
     private SensorManager mSensorManager;
     private TextView text;
-    private Accelerometer accelerometer;
+    private SquatTracker squatTracker;
+    private JumpTracker jumpTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,41 +23,26 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Stri
         text.setText("event not triggered");
 
         mSensorManager = (SensorManager) getSystemService(getApplicationContext().SENSOR_SERVICE);
-        accelerometer = new Accelerometer(mSensorManager, this);
+       // squatTracker = new SquatTracker(mSensorManager, this);
+        jumpTracker = new JumpTracker(mSensorManager, this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        accelerometer.startTracking();
-        //testAccelerometer();
+        //squatTracker.startTracking();
+        jumpTracker.startTracking();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        accelerometer.pauseTracking();
+        //squatTracker.pauseTracking();
+        jumpTracker.pauseTracking();
     }
 
     @Override
     public void notify(String s) {
         text.setText(s);
-    }
-
-    public void testAccelerometer(){
-        accelerometer.handleAcceleration(new Point(10, 10, 10));
-        try {
-            Thread.sleep(1000);
-            accelerometer.handleAcceleration(new Point(0, 0, 0));
-            Thread.sleep(1000);
-            accelerometer.handleAcceleration(new Point(-10, -10, -10));
-            Thread.sleep(1000);
-            accelerometer.handleAcceleration(new Point(0, 0, 0));
-            Thread.sleep(1000);
-            accelerometer.handleAcceleration(new Point(0, 0, 0));
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-
-        }
     }
 }
