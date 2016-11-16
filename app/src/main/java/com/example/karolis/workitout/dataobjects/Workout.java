@@ -38,4 +38,12 @@ public class Workout {
         exercises.add(new Exercise("squatExercise", "", 1));
         return new Workout("example workout", exercises);
     }
+
+    public String[] getExerciseStringArray(){
+        String[] strings = new String[exercises.size()];
+        for (int i = 0; i<exercises.size();i++){
+            strings[i] = exercises.get(i).toString();
+        }
+        return strings;
+    }
 }

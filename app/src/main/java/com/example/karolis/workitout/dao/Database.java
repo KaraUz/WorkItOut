@@ -59,4 +59,19 @@ public class Database {
         workoutList.add(new Workout(lastWorkout,exerciseList));
         return workoutList;
     }
+
+    public List<Exercise> getAllExercises(){
+        List<Exercise> exerciseList = new ArrayList<>();
+        Exercise exercise;
+        Cursor resultSet = mydatabase.rawQuery("Select * from Exercise by WorkoutName",null);
+        resultSet.moveToFirst();
+        if(resultSet == null || resultSet.getCount() == 0) return exerciseList;
+        exerciseList.add(new Exercise(resultSet.getString(0),resultSet.getString(1)));
+        for (int i = 1; i<resultSet.getCount();i++){
+            resultSet.moveToNext();
+            if(resultSet.isAfterLast()) break;
+            exerciseList.add(new Exercise(resultSet.getString(0),resultSet.getString(1)));
+        }
+        return exerciseList;
+    }
 }
