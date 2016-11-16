@@ -12,7 +12,7 @@ import com.example.karolis.workitout.utilities.Listener;
  * Created by Dziugas on 10/14/2016.
  */
 
-public class SquatTracker implements SensorEventListener {
+public class SquatTracker implements SensorEventListener, Tracker {
 
     private final float Z_THRESHOLD = 0.75f;
     private final float TIME_THRESHOLD = 0.8f;
@@ -24,14 +24,15 @@ public class SquatTracker implements SensorEventListener {
     private Point position;
     private Point velocity;
     private Point acceleration;
-    private Listener<String> listener;
+    private Listener<Integer> listener;
     private int directionChangeCount;
     private float directionChangeTime;
     private float[] gravityValues;
     private float[] magneticValues;
     private Point orientation;
+    private int requiredRepetitions;
 
-    public SquatTracker(SensorManager mSensorManager, Listener<String> listener){
+    public SquatTracker(SensorManager mSensorManager, Listener<Integer> listener, int difficulty){
         this.mSensorManager = mSensorManager;
         this.accelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         this.gravitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
@@ -44,6 +45,7 @@ public class SquatTracker implements SensorEventListener {
         orientation = new Point();
         directionChangeCount = 0;
         directionChangeTime = 0;
+        requiredRepetitions = countRequiredRepetitions(difficulty);
     }
 
     public void startTracking(){
@@ -137,14 +139,25 @@ public class SquatTracker implements SensorEventListener {
         return true;
     }
 
-    private String formSquatOutput(){
-        return position.toString("position") + '\n'
-                + velocity.toString("velocity") + '\n'
-                + acceleration.toString("acceleration") + '\n'
-                + "Count: " + directionChangeCount;
+    private Integer formSquatOutput(){
+//        return position.toString("position") + '\n'
+//                + velocity.toString("velocity") + '\n'
+//                + acceleration.toString("acceleration") + '\n'
+//                + "Count: " + directionChangeCount;
+        return directionChangeCount;
     }
 
-    private String formSitUpOutput(){
-        return orientation.toString("orientation");
+    private int countRequiredRepetitions(int difficulty){
+        return difficulty * 5;
+    }
+
+    @Override
+    public boolean resultReached() {
+        return requiredRepetitions <= directionChangeCount;
+    }
+
+    @Override
+    public int getRequiredRepetitions() {
+        return requiredRepetitions;
     }
 }

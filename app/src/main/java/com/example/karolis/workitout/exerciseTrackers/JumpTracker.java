@@ -12,19 +12,20 @@ import com.example.karolis.workitout.utilities.Listener;
  * Created by Dziugas on 11/4/2016.
  */
 
-public class JumpTracker implements SensorEventListener {
+public class JumpTracker implements SensorEventListener, Tracker {
     private SensorManager mSensorManager;
     private Sensor accelerometerSensor;
     private Sensor gravitySensor;
     private Sensor magneticSensor;
     private Point acceleration;
-    private Listener<String> listener;
+    private Listener<Integer> listener;
     private int jumpCount;
     private boolean inAJump;
     private float[] gravityValues;
     private float[] magneticValues;
+    private int requiredRepetitions;
 
-    public JumpTracker(SensorManager mSensorManager, Listener<String> listener){
+    public JumpTracker(SensorManager mSensorManager, Listener<Integer> listener, int difficulty){
         this.mSensorManager = mSensorManager;
         this.accelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         this.gravitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
@@ -34,6 +35,7 @@ public class JumpTracker implements SensorEventListener {
         jumpCount = 0;
         inAJump = false;
         acceleration = new Point();
+        requiredRepetitions = countRequiredRepetitions(difficulty);
     }
 
     public void startTracking(){
@@ -97,8 +99,21 @@ public class JumpTracker implements SensorEventListener {
         }
     }
 
-    private String formJumpOutput(){
-        return acceleration.toString("acceleration") + '\n'
-                +"Count: " + jumpCount;
+    private Integer formJumpOutput(){
+        return jumpCount;
+    }
+
+    private int countRequiredRepetitions(int difficulty){
+        return difficulty * 15;
+    }
+
+    @Override
+    public boolean resultReached() {
+        return requiredRepetitions <= jumpCount;
+    }
+
+    @Override
+    public int getRequiredRepetitions() {
+        return requiredRepetitions;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.karolis.workitout.dataobjects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,5 +30,12 @@ public class Workout {
 
     public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
+    }
+
+    public static Workout exampleWorkout(){
+        List<Exercise> exercises = new ArrayList<Exercise>();
+        exercises.add(new Exercise("jumpExercise", "", 1));
+        exercises.add(new Exercise("squatExercise", "", 1));
+        return new Workout("example workout", exercises);
     }
 }

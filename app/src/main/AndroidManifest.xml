@@ -28,7 +28,9 @@
         <activity
             android:name=".ChooseExerciseActivity"
             android:label="@string/title_activity_choose_exercise"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".EndWorkoutActivity"/>
     </application>
 
 </manifest>
