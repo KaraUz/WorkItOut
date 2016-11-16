@@ -1,10 +1,12 @@
 package com.example.karolis.workitout.dataobjects;
 
+import java.io.Serializable;
+
 /**
  * Created by Karolis on 2016-10-16.
  */
 
-public class Exercise {
+public class Exercise implements Serializable{
 
     private String name;
     private String description;
@@ -43,5 +45,10 @@ public class Exercise {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+
+    @Override
+    public String toString() {
+        return name + '-' + difficulty;
     }
 }

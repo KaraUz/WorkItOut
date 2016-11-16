@@ -20,7 +20,8 @@
         </activity>
         <activity
             android:name=".ExerciseActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label = "Exercise"/>
         <activity
             android:name=".CreateWorkoutActivity"
             android:label="@string/title_activity_create_workout"

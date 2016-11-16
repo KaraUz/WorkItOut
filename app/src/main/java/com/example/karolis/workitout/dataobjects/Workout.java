@@ -30,4 +30,12 @@ public class Workout {
     public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
     }
+
+    public String[] getExerciseStringArray(){
+        String[] strings = new String[exercises.size()];
+        for (int i = 0; i<exercises.size();i++){
+            strings[i] = exercises.get(i).toString();
+        }
+        return strings;
+    }
 }
