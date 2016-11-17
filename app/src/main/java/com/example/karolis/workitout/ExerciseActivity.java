@@ -26,6 +26,8 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
     private Workout workout;
     private TrackerFactory trackerFactory;
     private ListIterator<Exercise> exerciseIterator;
+    private long workoutStartTime;
+    private long workoutEndTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         workout = Workout.exampleWorkout();
@@ -55,13 +57,21 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
     }
 
     public void startWorkout(View view) {
-        //TODO: startTimeTracking
+        startTimeTracking();
         nextExercise();
     }
 
     public void nextExercise(View view) {
         //TODO: startTimeTracking
         nextExercise();
+    }
+
+    public void startTimeTracking(){
+        workoutStartTime = System.currentTimeMillis() / 1000;
+    }
+
+    public void stopTimeTracking(){
+        workoutEndTime = System.currentTimeMillis() / 1000;
     }
 
     private void nextExercise(){
@@ -90,7 +100,7 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
     }
 
     private void setInbetweenExercisesUI(){
-        headerView.setText("Ready for the next exercise?");
+        headerView.setText(getResources().getString(R.string.ready_for_exercise));
         findViewById(R.id.next_exercise_button).setVisibility(View.VISIBLE);
     }
 
@@ -98,6 +108,7 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
         if(exerciseIterator.hasNext()){
             setInbetweenExercisesUI();
         } else {
+            stopTimeTracking();
             startEndWorkoutActivity();
         }
     }
@@ -114,7 +125,9 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
     }
 
     private void startEndWorkoutActivity(){
+        long workoutDuration = workoutEndTime - workoutStartTime;
         Intent intent = new Intent(this, EndWorkoutActivity.class);
+        intent.putExtra("workoutDuration", workoutDuration);
         startActivity(intent);
     }
 }

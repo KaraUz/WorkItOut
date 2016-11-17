@@ -140,10 +140,6 @@ public class SquatTracker implements SensorEventListener, Tracker {
     }
 
     private Integer formSquatOutput(){
-//        return position.toString("position") + '\n'
-//                + velocity.toString("velocity") + '\n'
-//                + acceleration.toString("acceleration") + '\n'
-//                + "Count: " + directionChangeCount;
         return directionChangeCount;
     }
 

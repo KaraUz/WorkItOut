@@ -4,5 +4,7 @@
     <string name="title_activity_create_workout">CreateWorkoutActivity</string>
     <string name="title_activity_choose_exercise">ChooseExerciseActivity</string>
     <string name="title_end_workout_activity">EndWorkoutActivity</string>
-    <string name="workout_finished_greeting">Congratulations you finished your workout</string>
+    <string name="workout_finished_greeting">Congratulations you finished your workout!</string>
+    <string name="your_time">Your time:\n%1$s</string>
+    <string name="ready_for_exercise">Ready for the next exercise?</string>
 </resources>
