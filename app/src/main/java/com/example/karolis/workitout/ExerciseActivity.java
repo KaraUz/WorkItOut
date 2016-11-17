@@ -1,21 +1,25 @@
 package com.example.karolis.workitout;
 
+import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.karolis.workitout.dao.Database;
 import com.example.karolis.workitout.dataobjects.Exercise;
 import com.example.karolis.workitout.dataobjects.Workout;
+import com.example.karolis.workitout.dataobjects.WorkoutResult;
 import com.example.karolis.workitout.exerciseTrackers.IdleTracker;
 import com.example.karolis.workitout.exerciseTrackers.Tracker;
 import com.example.karolis.workitout.exerciseTrackers.TrackerFactory;
 import com.example.karolis.workitout.utilities.Listener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ListIterator;
 import java.util.Locale;
 
@@ -28,6 +32,7 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
     private ListIterator<Exercise> exerciseIterator;
     private long workoutStartTime;
     private long workoutEndTime;
+    private Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         workout = Workout.exampleWorkout();
@@ -43,6 +48,9 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
         trackerFactory = new TrackerFactory(this, mSensorManager);
         tracker = new IdleTracker();
         exerciseIterator = workout.getExercises().listIterator();
+
+        database = new Database(getApplication().openOrCreateDatabase("workout.db",
+                Context.MODE_PRIVATE,null));
     }
 
     @Override
@@ -104,15 +112,6 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
         findViewById(R.id.next_exercise_button).setVisibility(View.VISIBLE);
     }
 
-    private void endExercise(){
-        if(exerciseIterator.hasNext()){
-            setInbetweenExercisesUI();
-        } else {
-            stopTimeTracking();
-            startEndWorkoutActivity();
-        }
-    }
-
     @Override
     public void notify(Integer count) {
         counterText.setText(String.format(Locale.ENGLISH, "%1$d / %2$d", count,
@@ -124,8 +123,26 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
         }
     }
 
-    private void startEndWorkoutActivity(){
-        long workoutDuration = workoutEndTime - workoutStartTime;
+    private void endExercise(){
+        if(exerciseIterator.hasNext()){
+            setInbetweenExercisesUI();
+        } else {
+            stopTimeTracking();
+            long workoutDuration = workoutEndTime - workoutStartTime;
+            saveWorkoutResult(workoutDuration);
+            startEndWorkoutActivity(workoutDuration);
+        }
+    }
+
+    private void saveWorkoutResult(long workoutDuration){
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
+        WorkoutResult result = new WorkoutResult(workout.getName(), dateFormat.format(date),
+                workoutDuration);
+        database.saveWorkoutResult(result);
+    }
+
+    private void startEndWorkoutActivity(long workoutDuration){
         Intent intent = new Intent(this, EndWorkoutActivity.class);
         intent.putExtra("workoutDuration", workoutDuration);
         startActivity(intent);

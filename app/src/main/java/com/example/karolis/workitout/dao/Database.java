@@ -1,5 +1,6 @@
 package com.example.karolis.workitout.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,8 +8,11 @@ import android.provider.ContactsContract;
 
 import com.example.karolis.workitout.dataobjects.Exercise;
 import com.example.karolis.workitout.dataobjects.Workout;
+import com.example.karolis.workitout.dataobjects.WorkoutResult;
 
+import java.io.Console;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,6 +31,12 @@ public class Database {
                 "ExerciseName VARCHAR," +
                 "Difficulty integer," +
                 "FOREIGN KEY (ExerciseName) REFERENCES Exercise(Name));");
+
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS WorkoutHistory(" +
+                "WorkoutName VARCHAR," +
+                "WorkoutDate DATETIME," +
+                "DurationText VARCHAR," +           // HH:MM:SS
+                "DurationInSeconds INTEGER);");
         //mydatabase.execSQL("INSERT INTO Exercise VALUES('Exercise1','This is first test exercise');");
         //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout2','Exercise1',1);");
         //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout2','Exercise1',1);");
@@ -73,5 +83,17 @@ public class Database {
             exerciseList.add(new Exercise(resultSet.getString(0),resultSet.getString(1)));
         }
         return exerciseList;
+    }
+
+    public void saveWorkoutResult(WorkoutResult workoutResult){
+        mydatabase.insertOrThrow("WorkoutHistory", null, workoutResult.toContentValues());
+
+//        Cursor cursor = mydatabase.rawQuery("Select WorkoutName, WorkoutDate, DurationText, DurationInSeconds from WorkoutHistory", null);
+//        cursor.moveToFirst();
+//        String workoutName = cursor.getString(0);
+//        String workoutDate = cursor.getString(1);
+//        String durationText = cursor.getString(2);
+//        String durationInSeconds = cursor.getString(3);
+//        System.out.println(workoutName);
     }
 }
