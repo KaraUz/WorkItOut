@@ -2,10 +2,12 @@ package com.example.karolis.workitout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.karolis.workitout.dao.Database;
@@ -15,6 +17,7 @@ import com.example.karolis.workitout.dataobjects.WorkoutResult;
 import com.example.karolis.workitout.exerciseTrackers.IdleTracker;
 import com.example.karolis.workitout.exerciseTrackers.Tracker;
 import com.example.karolis.workitout.exerciseTrackers.TrackerFactory;
+import com.example.karolis.workitout.utilities.ImageProvider;
 import com.example.karolis.workitout.utilities.Listener;
 
 import java.text.DateFormat;
@@ -33,6 +36,7 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
     private long workoutStartTime;
     private long workoutEndTime;
     private Database database;
+    private ImageProvider imageProvider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         workout = Workout.exampleWorkout();
@@ -51,6 +55,8 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
 
         database = new Database(getApplication().openOrCreateDatabase("workout.db",
                 Context.MODE_PRIVATE,null));
+
+        imageProvider = new ImageProvider();
     }
 
     @Override
@@ -99,6 +105,9 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
         exercisesLeftView.setText(exercisesLeft > 0
             ? exercisesLeft + " Exercises left"
             : "Last exercise");
+        
+        RelativeLayout layout =(RelativeLayout)findViewById(R.id.activity_exercise);
+        layout.setBackgroundResource(imageProvider.getImage(exercise.getName()));
 
         findViewById(R.id.start_workout_button).setVisibility(View.GONE);
         findViewById(R.id.next_exercise_button).setVisibility(View.GONE);

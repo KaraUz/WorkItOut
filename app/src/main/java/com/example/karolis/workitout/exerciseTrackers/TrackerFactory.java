@@ -19,15 +19,8 @@ public class TrackerFactory {
     }
 
     public Tracker CreateTracker(Exercise exercise){
-        switch(exercise.getName().toLowerCase()){
-            case "squatexercise":
-            case "squat":
-                return new SquatTracker(sensorManager, trackerListener, exercise.getDifficulty());
-            case "jumpexercise":
-            case "jump":
-                return new JumpTracker(sensorManager, trackerListener, exercise.getDifficulty());
-            default:
-                return null;
-        }
+        return exercise.getName().toLowerCase().contains("squat")
+                ? new SquatTracker(sensorManager, trackerListener, exercise.getDifficulty())
+                : new JumpTracker(sensorManager, trackerListener, exercise.getDifficulty());
     }
 }
