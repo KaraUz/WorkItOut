@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -19,11 +20,15 @@ public class EndWorkoutActivity extends AppCompatActivity {
 
         Intent mIntent = getIntent();
         long workoutDurationInSeconds = mIntent.getLongExtra("workoutDuration", 0);
-        String asdf = mIntent.getStringExtra("workoutDuration");
 
         Resources res = getResources();
         ((TextView)findViewById(R.id.final_time_view)).setText(
                 res.getString(R.string.your_time, formatTimeOutput(workoutDurationInSeconds)));
+    }
+
+    public void redirectToMainActivity(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private String formatTimeOutput(long durationInSeconds){
