@@ -49,6 +49,6 @@ public class Exercise implements Serializable{
 
     @Override
     public String toString() {
-        return name + '-' + difficulty;
+        return name + "\nDifficulty: " + difficulty;
     }
 }

@@ -3,6 +3,7 @@ package com.example.karolis.workitout.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class Database {
 
-    SQLiteDatabase mydatabase;
+    private SQLiteDatabase mydatabase;
 
     public Database(SQLiteDatabase db){
         mydatabase = db;
@@ -37,9 +38,15 @@ public class Database {
                 "WorkoutDate DATETIME," +
                 "DurationText VARCHAR," +           // HH:MM:SS
                 "DurationInSeconds INTEGER);");
-        //mydatabase.execSQL("INSERT INTO Exercise VALUES('Exercise1','This is first test exercise');");
-        //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout2','Exercise1',1);");
-        //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout2','Exercise1',1);");
+        try{
+            mydatabase.execSQL("INSERT INTO Exercise VALUES('Jump exercise','Jump exercise. \nEach difficulty level increases amount of jumps required to complete the exercise.');");
+            mydatabase.execSQL("INSERT INTO Exercise VALUES('Squat exercise','Squat exercise. \nEach difficulty level increases amount of squats required to complete the exercise.');");
+            //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout2','Exercise1',1);");
+            //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout2','Exercise1',1);");
+        }
+        catch(SQLException ex){
+            System.out.println("Initial data already exists.");
+        }
     }
 
     public List<Workout> getAllWorkouts(){
@@ -72,8 +79,7 @@ public class Database {
 
     public List<Exercise> getAllExercises(){
         List<Exercise> exerciseList = new ArrayList<>();
-        Exercise exercise;
-        Cursor resultSet = mydatabase.rawQuery("Select * from Exercise by WorkoutName",null);
+        Cursor resultSet = mydatabase.rawQuery("Select * from Exercise",null);
         resultSet.moveToFirst();
         if(resultSet == null || resultSet.getCount() == 0) return exerciseList;
         exerciseList.add(new Exercise(resultSet.getString(0),resultSet.getString(1)));
@@ -83,6 +89,17 @@ public class Database {
             exerciseList.add(new Exercise(resultSet.getString(0),resultSet.getString(1)));
         }
         return exerciseList;
+    }
+
+    public boolean saveWorkout(Workout workout){
+        if(workout == null || workout.getExercises().isEmpty()) return false;
+        Cursor resultSet = mydatabase.rawQuery("Select WorkoutName from WorkoutExercise where WorkoutName = '"+workout.getName()+"'",null);
+        if(resultSet.getCount()>0) return false;
+        for (Exercise exercise: workout.getExercises()) {
+            mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('"+workout.getName() +
+                    "','" + exercise.getName() + "'," + exercise.getDifficulty() + ");");
+        }
+        return true;
     }
 
     public void saveWorkoutResult(WorkoutResult workoutResult){

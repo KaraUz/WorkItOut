@@ -14,23 +14,22 @@ import com.example.karolis.workitout.dataobjects.Workout;
 import java.util.List;
 
 /**
- * Created by Karolis on 2016-10-16.
+ * Created by Karolis on 2016-11-17.
  */
 
-public class WorkoutListAdapter extends BaseExpandableListAdapter {
-
+public class ExerciseListAdapter extends BaseExpandableListAdapter {
     private Context context;
-    private List<Workout> workoutList;
+    private List<Exercise> exerciseList;
 
-    public WorkoutListAdapter(Context context, List<Workout> workoutList) {
+    public ExerciseListAdapter(Context context, List<Exercise> exerciseList) {
         this.context = context;
-        this.workoutList = workoutList;
+        this.exerciseList = exerciseList;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        List<Exercise> exerciseList = workoutList.get(groupPosition).getExercises();
-        return exerciseList.get(childPosition);
+        String description = exerciseList.get(groupPosition).getDescription();
+        return description;
     }
 
     @Override
@@ -42,16 +41,14 @@ public class WorkoutListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View view, ViewGroup parent) {
 
-        Exercise exercise = (Exercise) getChild(groupPosition, childPosition);
+        Exercise exercise = (Exercise) getGroup(groupPosition);
         if (view == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = infalInflater.inflate(R.layout.child_items, null);
+            view = infalInflater.inflate(R.layout.child_exercise_description, null);
         }
         view.setBackgroundResource(R.color.white);
-        TextView sequence = (TextView) view.findViewById(R.id.sequence);
-        sequence.setText(exercise.toString());
-        //TextView childItem = (TextView) view.findViewById(R.id.childItem);
-        //childItem.setText(""+exercise.getDifficulty());
+        TextView sequence = (TextView) view.findViewById(R.id.child_exercise_description);
+        sequence.setText(exercise.getDescription());
 
         return view;
     }
@@ -59,19 +56,17 @@ public class WorkoutListAdapter extends BaseExpandableListAdapter {
     @Override
     public int getChildrenCount(int groupPosition) {
 
-        List<Exercise> exerciseList = workoutList.get(groupPosition).getExercises();
-        return exerciseList.size();
-
+        return exerciseList.get(groupPosition).getDescription() == null || exerciseList.get(groupPosition).getDescription().equals("") ? 0 : 1;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return workoutList.get(groupPosition);
+        return exerciseList.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return workoutList.size();
+        return exerciseList.size();
     }
 
     @Override
@@ -82,18 +77,18 @@ public class WorkoutListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
 
-        Workout workout = (Workout) getGroup(groupPosition);
+        Exercise exercise = (Exercise) getGroup(groupPosition);
         if (view == null) {
             LayoutInflater inf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inf.inflate(R.layout.group_items, null);
+            view = inf.inflate(R.layout.exercise_group_items, null);
         }
         if(isExpanded){
             view.setBackgroundResource(R.color.colorAccent);
         }else{
             view.setBackgroundResource(R.color.white);
         }
-        TextView heading = (TextView) view.findViewById(R.id.heading);
-        heading.setText(workout.getName().trim());
+        TextView heading = (TextView) view.findViewById(R.id.exerciseHeading);
+        heading.setText(exercise.getName().trim());
 
         return view;
     }
