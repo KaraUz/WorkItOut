@@ -12,6 +12,7 @@ import com.example.karolis.workitout.dataobjects.Workout;
 import com.example.karolis.workitout.dataobjects.WorkoutResult;
 
 import java.io.Console;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  * Created by Karolis on 2016-10-16.
  */
 
-public class Database {
+public class Database implements Serializable{
 
     private SQLiteDatabase mydatabase;
 
@@ -100,6 +101,11 @@ public class Database {
                     "','" + exercise.getName() + "'," + exercise.getDifficulty() + ");");
         }
         return true;
+    }
+
+    public void deleteWorkout(Workout workout){
+        mydatabase.delete("WorkoutExercise", "WorkoutName" + "='" + workout.getName()+"'", null);
+        //mydatabase.execSQL("Delete from WorkoutExercise where WorkoutName = '"+workout.getName()+"'",null);
     }
 
     public void saveWorkoutResult(WorkoutResult workoutResult){

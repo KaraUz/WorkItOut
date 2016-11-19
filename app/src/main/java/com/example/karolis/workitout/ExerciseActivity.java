@@ -39,7 +39,12 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
     private ImageProvider imageProvider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        workout = Workout.exampleWorkout();
+        Intent intent = getIntent();
+        if(intent!=null){
+            workout = (Workout)intent.getSerializableExtra("workout");
+        }else {
+            workout = Workout.exampleWorkout();
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);

@@ -1,5 +1,6 @@
 package com.example.karolis.workitout.dataobjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by Karolis on 2016-10-16.
  */
 
-public class Workout {
+public class Workout implements Serializable{
     private String name;
     private List<Exercise> exercises;
 

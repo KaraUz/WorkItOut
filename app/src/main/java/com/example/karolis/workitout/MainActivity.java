@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity{
 
     //Triggers when floating start button is clicked
     public void onClickStart(View view){
-        Intent intent = new Intent(this, ExerciseActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
+        intent.putExtra("workout",workoutList.get(selectedGroup));
         startActivity(intent);
     }
     public void onClickAdd(View view){
@@ -115,20 +116,20 @@ public class MainActivity extends AppCompatActivity{
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -142,5 +143,15 @@ public class MainActivity extends AppCompatActivity{
                 //Write your code if there's no result
             }
         }
+    }
+
+    public void DeleteSelectedWorkout(MenuItem item) {
+        ConfirmDeletionDialog dialog = new ConfirmDeletionDialog();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("database",db);
+        bundle.putSerializable("workout",workoutList.get(selectedGroup));
+
+        dialog.setArguments(bundle);
+        dialog.show(getFragmentManager().beginTransaction(),"Confirm");
     }
 }
