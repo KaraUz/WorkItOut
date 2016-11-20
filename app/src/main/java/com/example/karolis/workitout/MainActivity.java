@@ -100,6 +100,10 @@ public class MainActivity extends AppCompatActivity{
 
     //Triggers when floating start button is clicked
     public void onClickStart(View view){
+        if(selectedGroup <0) {
+            Toast.makeText(this, "Please select a workout!!!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
         intent.putExtra("workout",workoutList.get(selectedGroup));
         startActivity(intent);

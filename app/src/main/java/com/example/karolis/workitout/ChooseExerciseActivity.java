@@ -99,7 +99,7 @@ public class ChooseExerciseActivity extends AppCompatActivity {
         Intent returnIntent = new Intent();
         Exercise exercise = exerciseList.get(selectedGroup);
         SeekBar difficultyBar = (SeekBar) findViewById(R.id.difficultyBar);
-        exercise.setDifficulty(difficultyBar.getProgress());
+        exercise.setDifficulty(difficultyBar.getProgress()+1);
         returnIntent.putExtra("exercise",exercise);
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
