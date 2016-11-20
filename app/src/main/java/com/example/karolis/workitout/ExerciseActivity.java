@@ -67,6 +67,7 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
     @Override
     protected void onResume() {
         super.onResume();
+        startWorkout();
     }
 
     @Override
@@ -75,13 +76,12 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
         tracker.pauseTracking();
     }
 
-    public void startWorkout(View view) {
+    public void startWorkout() {
         startTimeTracking();
         nextExercise();
     }
 
     public void nextExercise(View view) {
-        //TODO: startTimeTracking
         nextExercise();
     }
 
@@ -114,7 +114,6 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
         RelativeLayout layout =(RelativeLayout)findViewById(R.id.activity_exercise);
         layout.setBackgroundResource(imageProvider.getImage(exercise.getName()));
 
-        findViewById(R.id.start_workout_button).setVisibility(View.GONE);
         findViewById(R.id.next_exercise_button).setVisibility(View.GONE);
 
         counterText.setText(String.format(Locale.ENGLISH, "0 / %1$d",
