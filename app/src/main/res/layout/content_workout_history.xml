@@ -13,4 +13,36 @@
     tools:context="com.example.karolis.workitout.WorkoutHistoryActivity"
     tools:showIn="@layout/activity_workout_history">
 
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/history_table"
+        android:stretchColumns="*"
+        android:showDividers="middle">
+
+        <TableRow
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:id="@+id/history_header">
+            <TextView
+                android:layout_column="1"
+                android:text="Date"
+                android:padding="3dip"
+                android:textStyle="normal|bold" />
+            <TextView
+                android:layout_column="2"
+                android:text="Workout name"
+                android:padding="3dip"
+                android:textStyle="normal|bold" />
+            <TextView
+                android:layout_column="3"
+                android:text="Duration"
+                android:padding="3dip"
+                android:textStyle="normal|bold" />
+        </TableRow>
+    </TableLayout>
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
 
 import com.example.karolis.workitout.dataobjects.Exercise;
+import com.example.karolis.workitout.dataobjects.HistoryElement;
 import com.example.karolis.workitout.dataobjects.Workout;
 import com.example.karolis.workitout.dataobjects.WorkoutResult;
 
@@ -15,6 +16,7 @@ import java.io.Console;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -109,13 +111,17 @@ public class Database implements Serializable{
 
     public void saveWorkoutResult(WorkoutResult workoutResult){
         mydatabase.insertOrThrow("WorkoutHistory", null, workoutResult.toContentValues());
+    }
 
-//        Cursor cursor = mydatabase.rawQuery("Select WorkoutName, WorkoutDate, DurationText, DurationInSeconds from WorkoutHistory", null);
-//        cursor.moveToFirst();
-//        String workoutName = cursor.getString(0);
-//        String workoutDate = cursor.getString(1);
-//        String durationText = cursor.getString(2);
-//        String durationInSeconds = cursor.getString(3);
-//        System.out.println(workoutName);
+    public List<HistoryElement> selectWorkoutHistory(int recordCount){
+        List<HistoryElement> historyElements = new LinkedList<>();
+        Cursor cursor = mydatabase.rawQuery("Select WorkoutName, WorkoutDate, DurationText from WorkoutHistory LIMIT "+recordCount, null);
+        if(cursor.getCount()<1) return historyElements;
+        cursor.moveToFirst();
+        historyElements.add(new HistoryElement(cursor.getString(1),cursor.getString(0),cursor.getString(2)));
+        while(cursor.moveToNext()){
+            historyElements.add(new HistoryElement(cursor.getString(1),cursor.getString(0),cursor.getString(2)));
+        }
+        return historyElements;
     }
 }
