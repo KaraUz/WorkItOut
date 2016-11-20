@@ -115,7 +115,7 @@ public class Database implements Serializable{
 
     public List<HistoryElement> selectWorkoutHistory(int recordCount){
         List<HistoryElement> historyElements = new LinkedList<>();
-        Cursor cursor = mydatabase.rawQuery("Select WorkoutName, WorkoutDate, DurationText from WorkoutHistory LIMIT "+recordCount, null);
+        Cursor cursor = mydatabase.rawQuery("Select WorkoutName, WorkoutDate, DurationText from WorkoutHistory order by WorkoutDate desc LIMIT "+recordCount, null);
         if(cursor.getCount()<1) return historyElements;
         cursor.moveToFirst();
         historyElements.add(new HistoryElement(cursor.getString(1),cursor.getString(0),cursor.getString(2)));
