@@ -12,7 +12,6 @@
     tools:context="com.example.karolis.workitout.ExerciseActivity">
 
     <TextView
-        android:text="Workout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/header_view"
@@ -35,18 +34,6 @@
         android:layout_marginRight="30dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textAlignment="textEnd" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/start_workout_button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:elevation="0dp"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:text="Start Workout"
-        android:onClick="startWorkout"
-        android:visibility="visible" />
 
     <Button
         android:layout_width="wrap_content"
