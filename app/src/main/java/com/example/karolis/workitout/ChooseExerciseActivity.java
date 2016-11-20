@@ -32,7 +32,7 @@ public class ChooseExerciseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_exercise);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Choose exercise");
+        toolbar.setTitle("Choose an Exercise");
         setSupportActionBar(toolbar);
 
         loadData();

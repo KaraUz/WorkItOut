@@ -7,4 +7,5 @@
     <string name="workout_finished_greeting">Congratulations you finished your workout!</string>
     <string name="your_time">Your time:\n%1$s</string>
     <string name="ready_for_exercise">Ready for the next exercise?</string>
+    <string name="title_activity_workout_history">WorkoutHistoryActivity</string>
 </resources>

@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Your Workouts");
         setSupportActionBar(toolbar);
 
         // add data for displaying in expandable list view
@@ -157,5 +158,10 @@ public class MainActivity extends AppCompatActivity{
 
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager().beginTransaction(),"Confirm");
+    }
+
+    public void OnClickOpenHistory(MenuItem item) {
+        Intent intent = new Intent(getApplicationContext(), WorkoutHistoryActivity.class);
+        startActivity(intent);
     }
 }

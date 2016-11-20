@@ -7,6 +7,12 @@
         android:orderInCategory="100"
         app:showAsAction="never" /-->
     <item
+        android:id="@+id/action_open_history"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Open history"
+        app:showAsAction="always"
+        android:onClick="OnClickOpenHistory"/>
+    <item
         android:id="@+id/action_favorite"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="Delete"

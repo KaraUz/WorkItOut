@@ -105,7 +105,6 @@ public class Database implements Serializable{
 
     public void deleteWorkout(Workout workout){
         mydatabase.delete("WorkoutExercise", "WorkoutName" + "='" + workout.getName()+"'", null);
-        //mydatabase.execSQL("Delete from WorkoutExercise where WorkoutName = '"+workout.getName()+"'",null);
     }
 
     public void saveWorkoutResult(WorkoutResult workoutResult){
