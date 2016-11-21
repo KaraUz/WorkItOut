@@ -7,15 +7,22 @@
         android:orderInCategory="100"
         app:showAsAction="never" /-->
     <item
+        android:id="@+id/action_favorite"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="Delete"
+        app:showAsAction="always"
+        android:onClick="DeleteSelectedWorkout"/>
+    <item
         android:id="@+id/action_open_history"
         android:icon="@android:drawable/ic_menu_recent_history"
         android:title="Open history"
         app:showAsAction="always"
         android:onClick="OnClickOpenHistory"/>
     <item
-        android:id="@+id/action_favorite"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="Delete"
+        android:id="@+id/action_create_workout"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Create exercise"
         app:showAsAction="always"
-        android:onClick="DeleteSelectedWorkout"/>
+        android:onClick="onClickAdd"/>
+
 </menu>

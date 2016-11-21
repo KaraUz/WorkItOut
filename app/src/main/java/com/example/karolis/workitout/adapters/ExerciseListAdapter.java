@@ -82,12 +82,15 @@ public class ExerciseListAdapter extends BaseExpandableListAdapter {
             LayoutInflater inf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inf.inflate(R.layout.exercise_group_items, null);
         }
+        TextView heading = (TextView) view.findViewById(R.id.exerciseHeading);
         if(isExpanded){
             view.setBackgroundResource(R.color.colorAccent);
+            heading.setTextColor(view.getContext().getResources().getColor(R.color.white));
         }else{
             view.setBackgroundResource(R.color.white);
+            heading.setTextColor(view.getContext().getResources().getColor(R.color.black));
         }
-        TextView heading = (TextView) view.findViewById(R.id.exerciseHeading);
+
         heading.setText(exercise.getName().trim());
 
         return view;

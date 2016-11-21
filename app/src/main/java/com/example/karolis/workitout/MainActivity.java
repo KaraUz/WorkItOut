@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -43,9 +44,14 @@ public class MainActivity extends AppCompatActivity{
 
         // add data for displaying in expandable list view
         loadData();
-
         //get reference of the ExpandableListView
         expandableWorkoutList = (ExpandableListView) findViewById(R.id.expandable_workout_list);
+
+        if(workoutList!=null && !workoutList.isEmpty()){
+            findViewById(R.id.no_workout_text).setVisibility(View.GONE);
+            expandableWorkoutList.setVisibility(View.VISIBLE);
+        }
+
         // create the adapter by passing your ArrayList data
         listAdapter = new WorkoutListAdapter(MainActivity.this,workoutList);
         // attach the adapter to the expandable list view
@@ -68,6 +74,8 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onGroupExpand(int groupPosition) {
                 if(groupPosition != selectedGroup) {
+                    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.start_workout_butt);
+                    fab.show();
                     expandableWorkoutList.collapseGroup(selectedGroup);
                 }
                 selectedGroup = groupPosition;
@@ -109,7 +117,7 @@ public class MainActivity extends AppCompatActivity{
         intent.putExtra("workout",workoutList.get(selectedGroup));
         startActivity(intent);
     }
-    public void onClickAdd(View view){
+    public void onClickAdd(MenuItem item){
         Intent intent = new Intent(this, CreateWorkoutActivity.class);
         startActivityForResult(intent,CREATE_WORKOUT_REQUEST);
     }
@@ -147,6 +155,10 @@ public class MainActivity extends AppCompatActivity{
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
+        }
+        if(workoutList!=null && !workoutList.isEmpty()){
+            findViewById(R.id.no_workout_text).setVisibility(View.GONE);
+            expandableWorkoutList.setVisibility(View.VISIBLE);
         }
     }
 

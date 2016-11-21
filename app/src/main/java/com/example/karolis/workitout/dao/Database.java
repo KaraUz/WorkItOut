@@ -42,8 +42,8 @@ public class Database implements Serializable{
                 "DurationText VARCHAR," +           // HH:MM:SS
                 "DurationInSeconds INTEGER);");
         try{
-            mydatabase.execSQL("INSERT INTO Exercise VALUES('Jump exercise','Jump exercise. \nEach difficulty level increases amount of jumps required to complete the exercise.');");
-            mydatabase.execSQL("INSERT INTO Exercise VALUES('Squat exercise','Squat exercise. \nEach difficulty level increases amount of squats required to complete the exercise.');");
+            mydatabase.execSQL("INSERT INTO Exercise VALUES('Jump exercise','Jump exercise. \n\nEach difficulty level increases amount of jumps required to complete the exercise.');");
+            mydatabase.execSQL("INSERT INTO Exercise VALUES('Squat exercise','Squat exercise. \n\nEach difficulty level increases amount of squats required to complete the exercise.');");
             //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout2','Exercise1',1);");
             //mydatabase.execSQL("INSERT INTO WorkoutExercise VALUES('Workout2','Exercise1',1);");
         }

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <ExpandableListView
         android:id="@+id/expandable_workout_list"
@@ -10,7 +11,24 @@
         android:layout_height="fill_parent"
         android:listSelector="@color/colorAccent"
         android:dividerHeight="1dp"
-        android:choiceMode="singleChoice" />
+        android:choiceMode="singleChoice"
+        android:background="@color/white"
+        android:visibility="gone"/>
+
+    <TextView
+        android:background="@color/white"
+        android:id="@+id/no_workout_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click the + icon on the toolbar to create your first workout!"
+        android:layout_below="@+id/expandable_workout_list"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:layout_margin="50px"/>
+
+
     <!--android:divider="#000"-->
 
 </RelativeLayout>

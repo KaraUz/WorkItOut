@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,6 +23,7 @@ public class CreateWorkoutActivity extends AppCompatActivity {
     static final int PICK_EXERCISE_REQUEST = 1;
     Workout workout;
     ArrayAdapter adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this,
                 R.layout.exercise_group_items,workout.getExerciseStringArray());
 
-        ListView listView = (ListView) findViewById(R.id.selectedExerciseList);
+        listView = (ListView) findViewById(R.id.selectedExerciseList);
         listView.setAdapter(adapter);
 
     }
@@ -76,6 +78,12 @@ public class CreateWorkoutActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
+        }
+        if(workout.getExercises()!=null && !workout.getExercises().isEmpty()) {
+            findViewById(R.id.no_exercise_selected_text).setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.confirm_workout);
+            fab.show();
         }
     }
 

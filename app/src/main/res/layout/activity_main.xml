@@ -30,17 +30,19 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_media_play"
         app:backgroundTint="?attr/actionModeSplitBackground"
-        android:onClick="onClickStart"/>
+        android:onClick="onClickStart"
+        android:visibility="gone"
+        />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        app:backgroundTint="?attr/actionModeSplitBackground"
-        android:onClick="onClickAdd"/>
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/add"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|start"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--app:srcCompat="@android:drawable/ic_menu_add"-->
+        <!--app:backgroundTint="?attr/actionModeSplitBackground"-->
+        <!--android:onClick="onClickAdd"/>-->
 
     <include layout="@layout/content_main"
         android:layout_height="511dp"

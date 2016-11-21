@@ -23,7 +23,7 @@ public class ChooseExerciseActivity extends AppCompatActivity {
     private ExerciseListAdapter listAdapter;
     private ExpandableListView expandableExerciseList;
     private int selectedGroup = -1;
-
+    FloatingActionButton fab;
     private List<Exercise> exerciseList;
 
 
@@ -36,7 +36,7 @@ public class ChooseExerciseActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         loadData();
-
+        fab = (FloatingActionButton) findViewById(R.id.choose_exercise_fab);
         //get reference of the ExpandableListView
         expandableExerciseList = (ExpandableListView) findViewById(R.id.expandable_exercise_list);
         // create the adapter by passing your ArrayList data
@@ -60,6 +60,7 @@ public class ChooseExerciseActivity extends AppCompatActivity {
         expandableExerciseList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
+                if(View.GONE==fab.getVisibility()) fab.show();
                 if(groupPosition != selectedGroup) {
                     expandableExerciseList.collapseGroup(selectedGroup);
                 }
