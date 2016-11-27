@@ -45,7 +45,9 @@
         <!--android:onClick="onClickAdd"/>-->
 
     <include layout="@layout/content_main"
-        android:layout_height="511dp"
+        android:layout_height="fill_parent"
         android:layout_width="wrap_content"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="top"
+        android:layout_marginTop="?attr/actionBarSize"
+        />
 </android.support.design.widget.CoordinatorLayout>
