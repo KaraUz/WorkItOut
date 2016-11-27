@@ -158,6 +158,7 @@ public class ExerciseActivity extends AppCompatActivity implements Listener<Inte
     private void startEndWorkoutActivity(long workoutDuration){
         Intent intent = new Intent(this, EndWorkoutActivity.class);
         intent.putExtra("workoutDuration", workoutDuration);
+        finish();
         startActivity(intent);
     }
 }
